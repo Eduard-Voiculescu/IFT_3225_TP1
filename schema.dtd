@@ -1,1 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!ELEMENT bibliotheque (livres,auteurs)>
+<!ELEMENT livres (livre+)>
+
+<!ELEMENT livre (titre, annee+, prix, couverture?, commentaire?)>
+<!ATTLIST livre 
+    langue CDATA #REQUIRED
+    auteur IDREF #REQUIRED>
+<!ELEMENT titre (#PCDATA)>
+<!ELEMENT annee (#PCDATA)>
+<!ELEMENT prix (#PCDATA)>
+<!ELEMENT couverture (#PCDATA)>
+<!ELEMENT commentaire (#PCDATA)>
+
+<!ELEMENT auteurs (auteur+)>
+<!ELEMENT auteur ((nom | prenom), pays, commentaire?, photo)>
+<!ATTLIST auteur ident ID #REQUIRED>
+<!ELEMENT nom (#PCDATA)>
+<!ELEMENT prenom (#PCDATA)>
+<!ELEMENT pays (#PCDATA)>
+<!ELEMENT photo (#PCDATA)>
