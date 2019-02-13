@@ -29,5 +29,5 @@ auteur = element auteur {
     (element nom {text} & element prenom {text}),
     element pays {text},
     element commentaire {text}?,
-    element photo {xsd:string {pattern="(http(s)://)?[\w.-\]]+(\?:\.[\w\.-\]]+)"}}
+    element photo {xsd:anyURI}
 }
