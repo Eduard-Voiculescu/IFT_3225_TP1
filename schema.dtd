@@ -10,6 +10,7 @@
 <!ELEMENT titre (#PCDATA)>
 <!ELEMENT annee (#PCDATA)>
 <!ELEMENT prix (#PCDATA)>
+<!ATTLIST prix devise CDATA #IMPLIED>
 <!ELEMENT couverture (#PCDATA)>
 <!ELEMENT commentaire (#PCDATA)>
 
