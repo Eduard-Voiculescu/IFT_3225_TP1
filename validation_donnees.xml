@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="schema.rnc"?>
-<!--<!DOCTYPE bibliotheque SYSTEM "schema.dtd">-->
+
 <bibliotheque>
     <livres>
         <!-- The Lord of the Rings book series  -->
