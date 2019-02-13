@@ -1,12 +1,12 @@
 datatypes xsd = "http://www.w3.org/2001/XMLSchema-datatypes"
 
-start = element bibliotheque { (livres,auteurs)* }
+start = element bibliotheque { (livres,auteurs) }
 
-livres = element livres { livre* }
+livres = element livres { livre+ }
 
 livre = element livre { 
-    attribute langue {text},
-    attribute auteur {xsd:IDREFS},
+    attribute langue {xsd:language},
+    attribute auteur {xsd:IDREFS}+,
     element titre {xsd:string {maxLength="60"}},
     element annee {xsd:gYear},
     prix,
@@ -22,9 +22,10 @@ prix = element prix {
      fractionDigits ="2"}
 }
 
-auteurs = element auteurs { auteur* }
+auteurs = element auteurs { auteur+ }
 
 auteur = element auteur {
+    attribute ident {xsd:ID},
     (element nom {text} & element prenom {text}),
     element pays {text},
     element commentaire {text}?,
