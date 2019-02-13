@@ -1,0 +1,32 @@
+datatypes xsd = "http://www.w3.org/2001/XMLSchema-datatypes"
+
+start = element bibliotheque { (livres,auteurs)* }
+
+livres = element livres { livre* }
+
+livre = element livre { 
+    attribute langue {text},
+    attribute auteur {xsd:IDREFS},
+    element titre {xsd:string {maxLength="60"}},
+    element annee {xsd:gYear},
+    prix,
+    element couverture {xsd:anyURI}?,
+    element commentaire {text}?
+}
+
+prix = element prix {
+    attribute devise {text}?,
+    xsd:decimal {
+     minInclusive = "0"
+     maxInclusive = "100"
+     fractionDigits ="2"}
+}
+
+auteurs = element auteurs { auteur* }
+
+auteur = element auteur {
+    (element nom {text} & element prenom {text}),
+    element pays {text},
+    element commentaire {text}?,
+    element photo {xsd:string {pattern="(http(s)://)?[\w.-\]]+(\?:\.[\w\.-\]]+)"}}
+}
