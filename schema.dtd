@@ -15,7 +15,7 @@
 <!ELEMENT commentaire (#PCDATA)>
 
 <!ELEMENT auteurs (auteur+)>
-<!ELEMENT auteur ((nom | prenom), pays, commentaire?, photo)>
+<!ELEMENT auteur (((nom, prenom) | (prenom, nom)), pays, commentaire?, photo)>
 <!ATTLIST auteur ident ID #REQUIRED>
 <!ELEMENT nom (#PCDATA)>
 <!ELEMENT prenom (#PCDATA)>
