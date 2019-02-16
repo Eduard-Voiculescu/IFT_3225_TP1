@@ -70,12 +70,21 @@
     <!-- Template pour l'affichage des livres -->
     <xsl:template match="livre">
         <li>
-            <xsl:value-of select="titre"/> 
+            <xsl:value-of select="titre"/>
+            <!-- &#160; c'est pour ajouter un espace vide (seulement pour l'esthétique de la page html -->
+            &#160;
             <xsl:value-of select="annee"/>
         </li>
-        <li>
-            Prix: <xsl:value-of select="@devise, prix"/>
-        </li>
+        <p>
+            Prix: 
+            <xsl:if test="prix/@devise">
+                <xsl:value-of select="prix/@devise"/>
+                <!-- &#160; c'est pour ajouter un espace vide (seulement pour l'esthétique de la page html -->
+                &#160;
+            </xsl:if>
+            <xsl:value-of select="prix"/>
+            
+        </p>
     </xsl:template>
 </xsl:stylesheet>
 
