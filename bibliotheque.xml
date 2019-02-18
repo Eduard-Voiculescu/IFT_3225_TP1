@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="schema.rnc" type="application/relax-ng-compact-syntax"?>
+
+<!-- les auteurs -->
 <?xml-stylesheet type="text/xsl href="auteurs.xsl"?>
 <?xml-stylesheet type="text/css href="auteurs.css"?>
+
+<!-- les livres -->
+<?xml-stylesheet type="text/xsl href="livres.xsl"?>
+<?xml-stylesheet type="text/css href="livres.css"?>
 
 <bibliotheque>
     <livres>
