@@ -15,22 +15,58 @@
         Exemple: select="'The Fellowship of the Ring'" va montrer toutes les
         informations associé au livre The Fellowship of the Ring 
     -->
-    <xsl:param name="livre" select="''"/>
-    <xsl:param name="prix_min" select="''"/>
-    <xsl:param name="prix_max" select="''"/>
+    <xsl:variable name="livre" select="''"/>
+    <xsl:variable name="prix_min" select="number('')"/>
+    <xsl:variable name="prix_max" select="number('')"/>
     
-    <!-- Nous devons vérifier que prix_min et prix_max ne sont pas un string rentré quelconque -->
-    <xsl:variable name="prix_min_verify">
-        <xsl:if test="not(string(number($prix_min)) != 'NaN')">
-            <!-- prix_min n'est pas un nombre -->
-            <xsl:value-of select="''"/>
-        </xsl:if>
+    <!-- 
+            Faire l'ajustement du prix pour le prix min 
+            On assume que si on entre un prix plus petit que 0 ou plus grand que 100,
+            le prix min va être 0 par défault
+    -->
+    <xsl:variable name="prix_min_ajusted">
+        <xsl:choose>
+            <xsl:when test="string($prix_min) = 'NaN'">
+                <xsl:value-of select="number('0')"/>
+            </xsl:when>
+            <xsl:when test="$prix_min &gt;= $prix_max">
+                <xsl:value-of select="number($prix_max)"/>
+            </xsl:when>
+            <xsl:when test="$prix_min &lt;= 0">
+                <xsl:value-of select="number(0)"/>
+            </xsl:when>
+            <xsl:when test="$prix_min &gt;= 100">
+                <xsl:value-of select="number(0)"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="number($prix_min)"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:variable>
-    <xsl:variable name="prix_max_verify">
-        <xsl:if test="not(string(number($prix_max)) != 'NaN')">
-            <!-- prix_min n'est pas un nombre -->
-            <xsl:value-of select="''"/>
-        </xsl:if>
+    
+    <!-- 
+            Faire l'ajustement du prix pour le prix max 
+            On assume que si on entre un prix plus petit que 0 ou plus grand que 100,
+            le prix max va être 100 par défault
+    -->
+    <xsl:variable name="prix_max_ajusted">
+        <xsl:choose>
+            <xsl:when test="string($prix_max) = 'NaN'">
+                <xsl:value-of select="number('100')"/>
+            </xsl:when>
+            <xsl:when test="$prix_min &gt;= $prix_max">
+                <xsl:value-of select="number($prix_min)"/>
+            </xsl:when>
+            <xsl:when test="$prix_max &lt;= 0">
+                <xsl:value-of select="number(100)"/>
+            </xsl:when>
+            <xsl:when test="$prix_max &gt;= 100">
+                <xsl:value-of select="number(100)"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="number($prix_max)"/>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:variable>
     
     <xsl:template match="/">
@@ -76,10 +112,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <xsl:call-template name="livre">
-                                <xsl:with-param name="prix_min" select="$prix_min_verify"/>
-                                <xsl:with-param name="prix_max" select="$prix_max_verify"/>
-                            </xsl:call-template>
+                            <xsl:call-template name="livre"/>
+                            
                         </tbody>
                     </table>
                 </div>
@@ -88,97 +122,53 @@
     </xsl:template>
     
     <!-- Template pour l'affichage des livres et leurs informations -->
-    <xsl:template name="livre">
+    <xsl:template name="livre" match="livre">
         <!-- 
             Nous devons faire un check sur les prix. Il faut passer à travers les tests cases s'il y a une
             erreur quelconque qui s'est introduite ou même s'il y a une erreur de frappe. Par exemple, 
             si min ou max est laissé vide, ou si max est plus petit que min ou vice-versa. 
         -->
-        <xsl:param name="prix_min"/>
-        <xsl:param name="prix_max"/>
         
-        <!-- 
-            Faire l'ajustement du prix pour le prix min 
-            On assume que si on entre un prix plus petit que 0 ou plus grand que 100,
-            le prix min va être 0 par défault
-        -->
-        <xsl:variable name="prix_min_ajusted">
-            <xsl:choose>
-                <xsl:when test="string(number($prix_min))!='NaN'"></xsl:when>
-                <xsl:when test="$prix_min=''">
-                    <xsl:value-of select="0"/>
-                </xsl:when>
-                <xsl:when test="$prix_min > $prix_max">
-                    <xsl:value-of select="$prix_max"/>
-                </xsl:when>
-                <xsl:when test="$prix_min &lt; 0">
-                    <xsl:value-of select="0"/>
-                </xsl:when>
-                <xsl:when test="$prix_min > 100">
-                    <xsl:value-of select="0"/>
-                </xsl:when>
-            </xsl:choose>
-        </xsl:variable>
-        
-        <!-- 
-            Faire l'ajustement du prix pour le prix max 
-            On assume que si on entre un prix plus petit que 0 ou plus grand que 100,
-            le prix max va être 100 par défault
-        -->
-        <xsl:variable name="prix_max_ajusted">
-            <xsl:choose>
-                <xsl:when test="$prix_max=''">
-                    <xsl:value-of select="100"/>
-                </xsl:when>
-                <xsl:when test="$prix_min > $prix_max">
-                    <xsl:value-of select="$prix_min"/>
-                </xsl:when>
-                <xsl:when test="$prix_max &lt; 0">
-                    <xsl:value-of select="100"/>
-                </xsl:when>
-                <xsl:when test="$prix_max > 100">
-                    <xsl:value-of select="100"/>
-                </xsl:when>
-            </xsl:choose>
-        </xsl:variable>
-        
-        <xsl:if test="$prix_max_ajusted > $prix_min_ajusted or $prix_min='' or $prix_max=''">
-            <xsl:variable name="id_auteur" select="@auteur"/>
+        <xsl:if test="$prix_max_ajusted > $prix_min_ajusted or $prix_min=0 or $prix_max=100">
             <xsl:for-each select="bibliotheque/livres/livre[contains(titre, $livre)]">
-                <tr>
-                    <td><xsl:value-of select="titre"/></td>
-                    <td>
-                        <xsl:if test="/bibliotheque/auteurs/auteur[contains($id_auteur, @ident)]">
-                            <xsl:apply-templates select="/bibliotheque/auteurs/auteur[contains($id_auteur, @ident)]"/>
-                        </xsl:if>
-                    </td>
-                    <td><xsl:value-of select="annee"/></td>
-                    <td><xsl:value-of select="@langue"/></td>
-                    <td>
-                        <xsl:if test="couverture">
-                            <img>
-                                <xsl:attribute name="src">
-                                    <xsl:value-of select="couverture"/>   
-                                </xsl:attribute>
-                                <xsl:attribute name="alt">
-                                    Page de couverture du livre
-                                </xsl:attribute>
-                                <xsl:attribute name="width">100</xsl:attribute>
-                                <xsl:attribute name="height">150</xsl:attribute>
-                            </img>
-                            
-                        </xsl:if>
-                    </td>
-                    <td><xsl:value-of select="commentaire"/></td>
-                    <td>
-                        <xsl:if test="prix/@devise">
-                            <xsl:value-of select="prix/@devise"/>
-                            <!-- &#160; c'est pour ajouter un espace vide (seulement pour l'esthétique de la page html -->
-                            &#160;
-                        </xsl:if>
-                        <xsl:value-of select="prix"/>
-                    </td>
-                </tr>
+                <xsl:variable name="book_price" select="number(prix)"/>
+                <xsl:if test="$book_price > number($prix_min_ajusted) and $book_price &lt;= number($prix_max_ajusted)">
+                    <xsl:variable name="id_auteur" select="@auteur"/>
+                    <tr>
+                        <td><xsl:value-of select="titre"/></td>
+                        <td>
+                            <xsl:if test="/bibliotheque/auteurs/auteur[contains($id_auteur, @ident)]">
+                                <xsl:apply-templates select="/bibliotheque/auteurs/auteur[contains($id_auteur, @ident)]"/>
+                            </xsl:if>
+                        </td>
+                        <td><xsl:value-of select="annee"/></td>
+                        <td><xsl:value-of select="@langue"/></td>
+                        <td>
+                            <xsl:if test="couverture">
+                                <img>
+                                    <xsl:attribute name="src">
+                                        <xsl:value-of select="couverture"/>   
+                                    </xsl:attribute>
+                                    <xsl:attribute name="alt">
+                                        Page de couverture du livre
+                                    </xsl:attribute>
+                                    <xsl:attribute name="width">100</xsl:attribute>
+                                    <xsl:attribute name="height">150</xsl:attribute>
+                                </img>
+                                
+                            </xsl:if>
+                        </td>
+                        <td><xsl:value-of select="commentaire"/></td>
+                        <td>
+                            <xsl:if test="prix/@devise">
+                                <xsl:value-of select="prix/@devise"/>
+                                <!-- &#160; c'est pour ajouter un espace vide (seulement pour l'esthétique de la page html -->
+                                &#160;
+                            </xsl:if>
+                            <xsl:value-of select="prix"/>
+                        </td>
+                    </tr>
+                </xsl:if>
             </xsl:for-each>
         </xsl:if>
     </xsl:template>
