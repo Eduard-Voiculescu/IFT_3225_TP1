@@ -10,7 +10,7 @@
         doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"
         indent="yes" encoding="UTF-8"/>
     
-    <xsl:param name="auteur" select="''"/>
+    <xsl:param name="auteur" select="'Rowling'"/>
 
     <xsl:template match="/">
         <html xmlns="http://www.w3.org/1999/xhtml">
