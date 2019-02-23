@@ -1,6 +1,8 @@
 datatypes xsd = "http://www.w3.org/2001/XMLSchema-datatypes"
 
-start = element bibliotheque { (livres,auteurs) }
+start = bibliotheque
+
+bibliotheque = element bibliotheque { (livres,auteurs) }
 
 livres = element livres { livre+ }
 
