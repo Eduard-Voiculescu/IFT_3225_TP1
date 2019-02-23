@@ -15,14 +15,14 @@
         Exemple: select="'The Fellowship of the Ring'" va montrer toutes les
         informations associé au livre The Fellowship of the Ring 
     -->
-    <xsl:variable name="livre" select="''"/>
-    <xsl:variable name="prix_min" select="number('')"/>
-    <xsl:variable name="prix_max" select="number('')"/>
+    <xsl:param name="livre" select="''"/>
+    <xsl:param name="prix_min" select="number('10')"/>
+    <xsl:param name="prix_max" select="number('15')"/>
     
     <!-- 
-            Faire l'ajustement du prix pour le prix min 
-            On assume que si on entre un prix plus petit que 0 ou plus grand que 100,
-            le prix min va être 0 par défault
+        Faire l'ajustement du prix pour le prix min 
+        On assume que si on entre un prix plus petit que 0 ou plus grand que 100,
+        le prix min va être 0 par défault
     -->
     <xsl:variable name="prix_min_ajusted">
         <xsl:choose>
@@ -131,6 +131,7 @@
         
         <xsl:if test="$prix_max_ajusted > $prix_min_ajusted or $prix_min=0 or $prix_max=100">
             <xsl:for-each select="bibliotheque/livres/livre[contains(titre, $livre)]">
+                <xsl:sort select="bibliotheque/auteurs/auteur/nom" data-type="text"/>
                 <xsl:variable name="book_price" select="number(prix)"/>
                 <xsl:if test="$book_price > number($prix_min_ajusted) and $book_price &lt;= number($prix_max_ajusted)">
                     <xsl:variable name="id_auteur" select="@auteur"/>
@@ -138,7 +139,9 @@
                         <td><xsl:value-of select="titre"/></td>
                         <td>
                             <xsl:if test="/bibliotheque/auteurs/auteur[contains($id_auteur, @ident)]">
-                                <xsl:apply-templates select="/bibliotheque/auteurs/auteur[contains($id_auteur, @ident)]"/>
+                                <xsl:apply-templates select="/bibliotheque/auteurs/auteur[contains($id_auteur, @ident)]">
+                                    <xsl:sort select="nom" data-type="text"/>
+                                </xsl:apply-templates>
                             </xsl:if>
                         </td>
                         <td><xsl:value-of select="annee"/></td>
@@ -174,7 +177,9 @@
     </xsl:template>
     
     <xsl:template match="auteur">
-        <xsl:value-of select="nom"/>&#160;<xsl:value-of select="prenom"/>
+        <ul>
+           <li><xsl:value-of select="nom"/>&#160;<xsl:value-of select="prenom"/>&#160;</li>
+        </ul>
     </xsl:template>
    
     
