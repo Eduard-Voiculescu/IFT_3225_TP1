@@ -231,6 +231,15 @@
         </livre>
         <!-- Life od Pi -->
         
+        <!-- Spider-Men -->
+        <livre langue="EN" auteur="B.M.B1584 S.P4593">
+            <titre>Spider-Men</titre>
+            <annee>2015</annee>
+            <prix devise="USD">15.99</prix>
+            <couverture>https://upload.wikimedia.org/wikipedia/en/1/15/Spider-men2.jpg</couverture>
+            <commentaire>Spider-Men is a five-issue, 2012 superhero comic book miniseries published by Marvel Comics, featuring Peter Parker, the original Spider-Man, and Miles Morales, the second and current Ultimate Marvel version of Spider-Man, who appear together in a crossover storyline that involves the two alternate universes from which they each originate. The series is written by Brian Michael Bendis and illustrated by Sara Pichelli.[1][2] It marks the first time that characters from the original Marvel Universe and the Ultimate Universe have crossed over since the latter debuted in 2000.</commentaire>
+        </livre>
+        
     </livres>
     <auteurs>
         <auteur ident="J.R.R.T0545">
@@ -278,6 +287,18 @@
             <pays>Canada</pays>
             <commentaire>Yann Martel, né le 25 juin 1963 à Salamanque en Espagne, est un écrivain canadien (québécois et saskatchewanais)1. Il est surtout connu pour son roman L'Histoire de Pi, dont la version originale anglaise a remporté le Man Booker Prize for Fiction.</commentaire>
             <photo>https://upload.wikimedia.org/wikipedia/commons/9/97/Yann_martel_2007-10-25_Seattle_WA_USA.jpg</photo>
+        </auteur>
+        <auteur ident="B.M.B1584">
+            <nom>Bendis</nom>
+            <prenom>Brian Michael</prenom>
+            <pays>United States of America</pays>
+            <photo>https://upload.wikimedia.org/wikipedia/commons/f/f2/6.21.10BrianMichaelBendisByLuigiNovi1.jpg</photo>
+        </auteur>
+        <auteur ident="S.P4593">
+            <nom>Pichelli</nom>
+            <prenom>Sara</prenom>
+            <pays>Italy</pays>
+            <photo>https://upload.wikimedia.org/wikipedia/commons/7/76/6.15.14SaraPichelliByLuigiNovi1.jpg</photo>
         </auteur>
     </auteurs>
 </bibliotheque>
